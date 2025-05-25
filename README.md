@@ -34,7 +34,7 @@ Eine umfassende Sammlung von über 100 getesteten und pädagogisch wertvollen Pr
 
 ## 📖 Zum Buch
 
-Begleitprojekt zu [„Kluge Köpfchen mit KI“ von Kai Spriestersbach & Leonie Lutz (erscheint Herbst 2025)](https://kai.im/kidsgpt-buch)*
+Begleitprojekt zu [„Kluge Köpfchen mit KI“ von Kai Spriestersbach & Leonie Lutz (erscheint Herbst 2025)](https://kai.im/kidsgpt-buch)<sup>*</sup>
 
 ---
 
@@ -42,4 +42,4 @@ Begleitprojekt zu [„Kluge Köpfchen mit KI“ von Kai Spriestersbach & Leonie 
 
 ---
 
-* Partner-Link. Kaufst Du darüber, erhalte ich ggf. eine Provision ohne Mehrkosten für Dich. Danke!
+<sup>*</sup> Partner-Link. Kaufst Du darüber, erhalte ich ggf. eine Provision ohne Mehrkosten für Dich. Danke!
