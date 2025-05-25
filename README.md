@@ -14,16 +14,16 @@ Eine umfassende Sammlung von über 100 getesteten und pädagogisch wertvollen Pr
 
 ## 📚 Kategorien
 
-✅ Lernen & Schule (Mathe, Deutsch, Sprachen, etc.)
-✅ Lernstrategien & Coaching
+✅ Lernen & Schule (Mathe, Deutsch, Sprachen, etc.)  
+✅ Lernstrategien & Coaching  
 ✅ Kreativität & Geschichten  
-✅ Spiel & Spaß
-✅ Alltag & Organisation
-✅ Probleme lösen
-✅ Etwas Neues lernen
-✅ Auf der Höhe bleiben
-✅ Gelerntes anwenden
-✅ Veränderungen mitgestalten
+✅ Spiel & Spaß  
+✅ Alltag & Organisation  
+✅ Probleme lösen  
+✅ Etwas Neues lernen  
+✅ Auf der Höhe bleiben  
+✅ Gelerntes anwenden  
+✅ Veränderungen mitgestalten  
 
 ## 🛡️ Sicherheit
 
@@ -34,8 +34,12 @@ Eine umfassende Sammlung von über 100 getesteten und pädagogisch wertvollen Pr
 
 ## 📖 Zum Buch
 
-Begleitprojekt zu „Kluge Köpfchen mit KI“ von Kai Spriestersbach & Leonie Lutz (erscheint Herbst 2025)
+Begleitprojekt zu [„Kluge Köpfchen mit KI“ von Kai Spriestersbach & Leonie Lutz (erscheint Herbst 2025)](https://kai.im/kidsgpt-buch)*
 
 ---
 
 🔗 [kidsgpt.eu](https://kidsgpt.eu) | Made with ❤️ for digital education
+
+---
+
+* Partner-Link. Kaufst Du darüber, erhalte ich ggf. eine Provision ohne Mehrkosten für Dich. Danke!
