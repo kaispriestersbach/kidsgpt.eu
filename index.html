@@ -360,7 +360,7 @@
              padding: 10px; margin-bottom: 15px; box-sizing: border-box; line-height: 1.4; background-color: #fff; resize: vertical; overflow-y: auto; cursor: text;
         }
         #prompt-preview-output:read-only { background-color: #e9ecef; cursor: not-allowed; }
-        .prompt-preview-actions { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .prompt-preview-actions { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; flex-direction: column; } /* Added flex-direction column */
 
         /* --- BUTTONS / LINKS (als Buttons gestyled) --- */
         .action-buttons-container { text-align: center; margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
@@ -533,6 +533,25 @@
         }
 
         #datenschutz { line-height: 1.2em; margin-top: 5px; }
+        
+        /* NEU: Clipboard Hinweis Styling */
+        .clipboard-notice {
+            background-color: #e6f7ff; /* Light blue background */
+            border: 1px solid #91d5ff; /* Blue border */
+            color: #0050b3; /* Dark blue text */
+            padding: 10px 15px;
+            border-radius: var(--border-radius-small);
+            margin-bottom: 10px; /* Space before the button */
+            font-size: var(--font-size-small);
+            text-align: left;
+            line-height: 1.4;
+            width: 100%; /* Take full width of container */
+            box-sizing: border-box; /* Include padding and border in width */
+        }
+        .clipboard-notice strong {
+            color: #003a8c; /* Even darker blue for strong text */
+        }
+
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
@@ -556,7 +575,7 @@
             /* Button/Link Anpassungen */
             .submit-btn, .secondary-cta { width: 100%; box-sizing: border-box; padding-left: 15px; padding-right: 15px; }
             #prompt-preview-output { min-height: 150px; }
-            .prompt-preview-actions { flex-direction: column; align-items: stretch; }
+            .prompt-preview-actions { flex-direction: column; align-items: stretch; } /* Ensures button and notice stack correctly */
             .back-btn { margin-bottom: 10px; }
 
             /* NEU: Responsive Buch-Sektion */
@@ -709,6 +728,14 @@
                                 <input type="radio" id="claude" name="chatbot" value="claude" class="visually-hidden">
                                 <span class="chatbot-name">Claude</span>
                             </label>
+                            <label class="chatbot-option" tabindex="0" onclick="selectChatbot('gemini', this)" onkeydown="handleChatbotKeydown(event, 'gemini', this)" title="Starte einen Chat mit Google Gemini (Prompt wird in Zwischenablage kopiert)">
+                                <img src="google-gemini-icon.svg" alt="Google Gemini Placeholder Logo" class="chatbot-icon"> <input type="radio" id="gemini" name="chatbot" value="gemini" class="visually-hidden">
+                                <span class="chatbot-name">Gemini</span>
+                            </label>
+                            <label class="chatbot-option" tabindex="0" onclick="selectChatbot('duckai', this)" onkeydown="handleChatbotKeydown(event, 'duckai', this)" title="Starte einen Chat mit Duck.ai (DuckDuckGo) (Prompt wird in Zwischenablage kopiert)">
+                                <img src="duck-ai-icon.svg" alt="Duck.ai Placeholder Logo" class="chatbot-icon"> <input type="radio" id="duckai" name="chatbot" value="duckai" class="visually-hidden">
+                                <span class="chatbot-name">Duck.ai</span>
+                            </label>
                         </div>
                         <span class="error-message" id="chatbot-error" role="alert" aria-live="polite"></span>
                     </div>
@@ -722,6 +749,9 @@
                         <button type="button" class="back-btn" onclick="updateAccordionState(2)">← Zurück zu Schritt 2</button>
 
                         <div class="action-buttons-container">
+                            <div class="clipboard-notice" id="clipboard-notice-step3" style="display: none;">
+                                ℹ️ <strong>Hinweis:</strong> Der Prompt wird in deine Zwischenablage kopiert.<br>Bitte füge ihn manuell in den Chatbot ein, nachdem er sich geöffnet hat.
+                            </div>
                             <a href="#" class="submit-btn disabled" id="start-chat-btn" role="button" tabindex="-1">
                                 Prompt & Chatbot wählen
                             </a>
@@ -736,6 +766,9 @@
                             <label for="prompt-preview-output" class="visually-hidden">Vorschau und Bearbeitung des finalen Prompts</label>
                             <textarea id="prompt-preview-output" title="Vorschau und Bearbeitung des finalen Prompts..."></textarea>
                             <div class="prompt-preview-actions">
+                                <div class="clipboard-notice" id="clipboard-notice-preview" style="display: none;">
+                                    ℹ️ <strong>Hinweis:</strong> Der Prompt wird in deine Zwischenablage kopiert. Bitte füge ihn manuell in den Chatbot ein, nachdem er sich geöffnet hat.
+                                </div>
                                 <a href="#" class="submit-btn disabled" id="launch-chatbot-btn" role="button" style="display: none;" tabindex="-1">
                                     Chatbot mit diesem Prompt starten
                                 </a>
@@ -758,7 +791,7 @@
                     <strong>Wähle oben einen Schnellstart-Prompt</strong> für eine allgemeine Unterstützung oder stöbere zur Inspiration in der Bibliothek, um spezifischere Anwendungsfälle zu finden.
                 </p>
                 <p>
-                    Anschließend brauchst Du nur noch einen Chatbot auszuwählen und auf den Button zu klicken, um mit deinem Prompt im gewählten Chatbot zu starten. <em>Le Chat, ChatGPT und Copilot sind zum Ausprobieren kostenlos und ohne Anmeldung nutzbar. Für Claude ist ein kostenloser Account nötig.</em>
+                    Anschließend brauchst Du nur noch einen Chatbot auszuwählen und auf den Button zu klicken, um mit deinem Prompt im gewählten Chatbot zu starten. <em>Le Chat, ChatGPT und Copilot sind zum Ausprobieren kostenlos und ohne Anmeldung nutzbar. Für Claude ist ein kostenloser Account nötig. Gemini und Duck.ai können ebenfalls ohne Anmeldung genutzt werden; bei diesen wird der Prompt in die Zwischenablage kopiert, damit du ihn im Chatbot einfügen kannst.</em>
                 </p>
                 <p>
                     Optional kannst du den finalen Prompt vorher über „Prompt ansehen/ändern“ prüfen und bearbeiten und anschließend damit den Chatbot deiner Wahl starten.
@@ -881,9 +914,9 @@
 
         <section>
             <p id="datenschutz">
-                <small><strong>Datenschutzhinweis:</strong> Diese Webseite selbst speichert keine persönlichen Daten oder Eingaben von dir. Wenn du auf „Chatbot starten“ oder „Chatbot mit diesem Prompt starten“ klickst, wird der ausgewählte (oder bearbeitete) Prompt an den externen Chatbot-Anbieter (z.B. Mistral AI, OpenAI, Microsoft, Anthropic) übermittelt und dessen Webseite in einem neuen Tab geöffnet. Ab diesem Moment gelten die Datenschutzbestimmungen und Nutzungsbedingungen des jeweiligen Anbieters. Sei dir bewusst, dass die Anbieter deine Eingaben möglicherweise zur Verbesserung ihrer Dienste verwenden.</small>
+                <small><strong>Datenschutzhinweis:</strong> Diese Webseite selbst speichert keine persönlichen Daten oder Eingaben von dir. Wenn du auf „Chatbot starten“ oder „Chatbot mit diesem Prompt starten“ klickst, wird der ausgewählte (oder bearbeitete) Prompt an den externen Chatbot-Anbieter (z.B. Mistral AI, OpenAI, Microsoft, Anthropic, Google, DuckDuckGo) übermittelt bzw. in deine Zwischenablage kopiert und dessen Webseite in einem neuen Tab geöffnet. Ab diesem Moment gelten die Datenschutzbestimmungen und Nutzungsbedingungen des jeweiligen Anbieters. Sei dir bewusst, dass die Anbieter deine Eingaben möglicherweise zur Verbesserung ihrer Dienste verwenden.</small>
             </p>
-            <p><small>Hinweis: Google Gemini ist aus technischen Gründen derzeit leider nicht direkt integrierbar.<br>Für Ideen, Anregungen oder Feedback: &#107;&#097;&#105;&#064;&#097;&#102;&#097;&#105;&#107;&#046;&#100;&#101;</small></p>
+            <p><small>Für Ideen, Anregungen oder Feedback: &#107;&#097;&#105;&#064;&#097;&#102;&#097;&#105;&#107;&#046;&#100;&#101;</small></p>
         </section>
         <footer class="footer">
             <p>&copy; 2025 <a hrefs="https://www.afaik.de/kai-spriestersbach/" target="_blank" rel="noopener noreferrer external">Kai Spriestersbach</a> | Die Webseite zum Buch „Kluge Köpfchen mit KI“</p>
@@ -948,14 +981,15 @@
         const step2Content = document.getElementById('step-2-content');
         const step3Section = document.getElementById('step-3-action');
         const step3Content = document.getElementById('step-3-content');
-        // **** MODIFICATION START: References to anchors ****
         const startChatAnchor = document.getElementById('start-chat-btn');
         const launchChatbotAnchor = document.getElementById('launch-chatbot-btn');
-        // **** MODIFICATION END ****
         const previewEditBtn = document.getElementById('preview-edit-btn');
         const promptPreviewContainer = document.getElementById('prompt-preview-container');
         const promptPreviewOutput = document.getElementById('prompt-preview-output');
         const aiForm = document.getElementById('aiForm');
+        const clipboardNoticeStep3 = document.getElementById('clipboard-notice-step3');
+        const clipboardNoticePreview = document.getElementById('clipboard-notice-preview');
+
 
         // --- AKKORDEON & NAVIGATION FUNKTIONEN ---
         function updateAccordionState(targetStep) {
@@ -987,7 +1021,7 @@
             if (sections[targetStep - 1].classList.contains('active-section')) {
                 focusOnSection(targetStep);
             }
-            updateActionButtonState(); // Use unified function
+            updateActionButtonState();
              if (targetStep < 3) { resetPreview(); }
         }
 
@@ -1015,11 +1049,17 @@
             } else if (step === 3) {
                  const backBtn = sectionContent.querySelector('.back-btn');
                  if (promptPreviewContainer.style.display === 'block') {
-                     firstFocusableElement = backBtn || promptPreviewOutput || launchChatbotAnchor;
+                     firstFocusableElement = backBtn || (clipboardNoticePreview.style.display === 'block' ? clipboardNoticePreview : null) || promptPreviewOutput || launchChatbotAnchor;
                  } else {
-                     firstFocusableElement = backBtn || startChatAnchor || previewEditBtn;
+                     firstFocusableElement = backBtn || (clipboardNoticeStep3.style.display === 'block' ? clipboardNoticeStep3 : null) || startChatAnchor || previewEditBtn;
                  }
             }
+            
+            // Filter out nulls in case notices are hidden
+            if (Array.isArray(firstFocusableElement)) {
+                firstFocusableElement = firstFocusableElement.find(el => el);
+            }
+
 
             if (firstFocusableElement) {
                  setTimeout(() => {
@@ -1031,11 +1071,10 @@
                          header.scrollIntoView({ behavior: 'smooth', block: 'start' });
                      }
 
-                     // Check if the element is actually focusable (not disabled or hidden)
                      if (firstFocusableElement.offsetWidth > 0 || firstFocusableElement.offsetHeight > 0) {
                          if (!firstFocusableElement.classList?.contains('disabled') && firstFocusableElement.getAttribute('tabindex') !== '-1' && !firstFocusableElement.disabled) {
                               firstFocusableElement.focus({ preventScroll: true });
-                         } else if (header) { // Fallback to header if element is disabled/not focusable
+                         } else if (header) { 
                              header.focus({ preventScroll: true });
                          }
                      } else if (header) {
@@ -1061,50 +1100,48 @@
         }
         function resetPreview() {
              promptPreviewContainer.style.display = 'none';
-             launchChatbotAnchor.style.display = 'none'; // Hide anchor
+             launchChatbotAnchor.style.display = 'none'; 
+             if (clipboardNoticePreview) clipboardNoticePreview.style.display = 'none';
              if (currentStep === 3) {
-                 startChatAnchor.style.display = 'inline-block'; // Show anchor
+                 startChatAnchor.style.display = 'inline-block'; 
                  previewEditBtn.style.display = 'inline-block';
-                 updateActionButtonState();
+                 // updateActionButtonState will handle clipboardNoticeStep3 visibility
              }
              promptPreviewOutput.value = '';
              promptPreviewOutput.readOnly = true;
              promptPreviewOutput.style.cursor = 'not-allowed';
              promptPreviewOutput.style.backgroundColor = '#e9ecef';
+             updateActionButtonState(); // Ensure button and notice states are correct
              if (step3Content.classList.contains('open')) {
                  requestAnimationFrame(() => { if (step3Content && step3Content.scrollHeight) { step3Content.style.maxHeight = step3Content.scrollHeight + "px"; } });
              }
         }
 
-        // **** MODIFICATION: Unified function to update action button/anchor states ****
         function updateActionButtonState() {
             const isPromptSelected = selectedPrompt !== null;
             const isChatbotSelected = validatedData.selectedChatbot !== '';
             const enabled = isPromptSelected && isChatbotSelected;
 
-            // Update Preview/Edit Button (remains a button)
             previewEditBtn.disabled = !enabled;
             previewEditBtn.textContent = 'Prompt ansehen/ändern';
 
-            // Update Start Chat Anchor (#start-chat-btn)
             if (enabled) {
                 startChatAnchor.classList.remove('disabled');
                 startChatAnchor.setAttribute('tabindex', '0');
-                startChatAnchor.removeAttribute('aria-disabled'); // Remove aria-disabled
+                startChatAnchor.removeAttribute('aria-disabled');
                 const promptTitle = selectedPrompt.title || '';
                 const chatbotName = validatedData.selectedChatbotName;
                 const shortTitle = promptTitle.length > 25 ? promptTitle.substring(0, 22) + '...' : promptTitle;
                 startChatAnchor.textContent = `„${shortTitle}“ in ${chatbotName} starten`;
-                startChatAnchor.href = '#'; // Placeholder href, will be set on click
+                startChatAnchor.href = '#'; 
             } else {
                 startChatAnchor.classList.add('disabled');
                 startChatAnchor.setAttribute('tabindex', '-1');
-                startChatAnchor.setAttribute('aria-disabled', 'true'); // Add aria-disabled
+                startChatAnchor.setAttribute('aria-disabled', 'true'); 
                 startChatAnchor.textContent = defaultButtonText;
-                startChatAnchor.removeAttribute('href'); // Remove href when disabled
+                startChatAnchor.removeAttribute('href'); 
             }
 
-            // Update Launch Chatbot Anchor (#launch-chatbot-btn) - primarily for preview
             const isPreviewVisible = promptPreviewContainer.style.display === 'block';
             const isPreviewPromptValid = promptPreviewOutput.value.trim() !== '';
 
@@ -1113,7 +1150,7 @@
                 launchChatbotAnchor.setAttribute('tabindex', '0');
                 launchChatbotAnchor.removeAttribute('aria-disabled');
                 launchChatbotAnchor.textContent = `Chatbot mit diesem Prompt starten`;
-                launchChatbotAnchor.href = '#'; // Placeholder href, will be set on click
+                launchChatbotAnchor.href = '#'; 
             } else {
                 launchChatbotAnchor.classList.add('disabled');
                 launchChatbotAnchor.setAttribute('tabindex', '-1');
@@ -1122,7 +1159,7 @@
                 launchChatbotAnchor.removeAttribute('href');
             }
 
-            // Control visibility based on preview state (within step 3)
+            // Control visibility of main action elements vs preview elements
             if (currentStep === 3) {
                 if (isPreviewVisible) {
                     startChatAnchor.style.display = 'none';
@@ -1133,17 +1170,49 @@
                     previewEditBtn.style.display = 'inline-block';
                     launchChatbotAnchor.style.display = 'none';
                 }
-            } else {
-                // Ensure correct display if moving away from step 3
+            } else { // Not in step 3, ensure correct default visibility
                 startChatAnchor.style.display = 'inline-block';
                 previewEditBtn.style.display = 'inline-block';
                 launchChatbotAnchor.style.display = 'none';
             }
+
+            // Control visibility of clipboard notices
+            const showClipboardNoticeCondition = (validatedData.selectedChatbot === 'gemini' || validatedData.selectedChatbot === 'duckai');
+
+            if (currentStep === 3) {
+                if (isPreviewVisible) {
+                    if (clipboardNoticePreview) {
+                        clipboardNoticePreview.style.display = showClipboardNoticeCondition && enabled && isPreviewPromptValid ? 'block' : 'none';
+                    }
+                    if (clipboardNoticeStep3) {
+                         clipboardNoticeStep3.style.display = 'none';
+                    }
+                } else { // Main action buttons in Step 3 are visible
+                    if (clipboardNoticeStep3) {
+                        clipboardNoticeStep3.style.display = showClipboardNoticeCondition && enabled ? 'block' : 'none';
+                    }
+                    if (clipboardNoticePreview) {
+                        clipboardNoticePreview.style.display = 'none';
+                    }
+                }
+            } else { // Not in Step 3, hide both notices
+                if (clipboardNoticeStep3) clipboardNoticeStep3.style.display = 'none';
+                if (clipboardNoticePreview) clipboardNoticePreview.style.display = 'none';
+            }
+             // Adjust accordion height if notice changes visibility and step 3 is open
+            if (currentStep === 3 && step3Content.classList.contains('open')) {
+                requestAnimationFrame(() => {
+                    if (step3Content && step3Content.scrollHeight) {
+                        step3Content.style.maxHeight = step3Content.scrollHeight + "px";
+                    }
+                });
+            }
         }
+
         function showError(errorSpan, message, focusElement = null) {
              hideFeedback();
              errorSpan.textContent = message; errorSpan.style.display = 'block'; void errorSpan.offsetWidth; errorSpan.classList.add('visible');
-             if (focusElement) { setTimeout(() => { if (focusElement.offsetWidth > 0 || focusElement.offsetHeight > 0) { if (!focusElement.classList?.contains('disabled') && firstFocusableElement.getAttribute('tabindex') !== '-1' && !focusElement.disabled) { focusElement.focus({ preventScroll: true }); } } }, 50); }
+             if (focusElement) { setTimeout(() => { if (focusElement.offsetWidth > 0 || focusElement.offsetHeight > 0) { if (!focusElement.classList?.contains('disabled') && focusElement.getAttribute('tabindex') !== '-1' && !focusElement.disabled) { focusElement.focus({ preventScroll: true }); } } }, 50); }
          }
         function hideError(errorSpan) {
             if (!errorSpan) return; errorSpan.classList.remove('visible'); setTimeout(() => { if (!errorSpan.classList.contains('visible')) { errorSpan.textContent = ''; errorSpan.style.display = 'none'; } }, 300);
@@ -1191,12 +1260,7 @@
         function generateContextQuestions(contextNeededArray) { if (!contextNeededArray || !Array.isArray(contextNeededArray) || contextNeededArray.length === 0) return ""; let questions = "Bevor du deine Rolle übernimmst, stelle bitte noch folgende Rückfragen, um deine Aufgabe bestmöglich erfüllen zu können:\n"; let questionCount = 0; contextNeededArray.forEach(type => { questionCount++; const lowerType = typeof type === 'string' ? type.toLowerCase() : ''; switch (lowerType) { case 'klasse': questions += `${questionCount}. In welcher **Klasse / Klassenstufe** und Schulart (Gesamtschule, Realschule, Gymnasium, etc.) bist du?\n`; break; case 'fach': questions += `${questionCount}. Um welches **Schulfach** geht es heute?\n`; break; case 'alter': questions += `${questionCount}. Wie **alt** bist du?\n`; break; case 'thema': questions += `${questionCount}. Zu welchem **Thema** möchtest du etwas machen/wissen?\n`; break; case 'gedicht': questions += `${questionCount}. Wie lautet der **Titel/Autor** des Gedichts oder kannst du den **Text** hier einfügen?\n`; break; case 'aktivitäten': questions += `${questionCount}. Welche **wichtigen Aufgaben oder Termine** stehen diese Woche an?\n`; break; case 'charakter': questions += `${questionCount}. Welche Art von **Charakter** soll in der Geschichte vorkommen?\n`; break; case 'ziel': questions += `${questionCount}. Was ist dein **Ziel** für unser Gespräch?\n`; break; case 'rolle': questions += `${questionCount}. Welche **Rolle** soll ich für dich einnehmen?\n`; break; case 'organisationstyp': questions += `${questionCount}. Um welchen **Organisationstyp** handelt es sich?\n`; break; case 'umfragetyp': questions += `${questionCount}. Um welchen **Typ von Umfrage** handelt es sich?\n`; break; case 'umfragethema': questions += `${questionCount}. Was ist das **Thema der Umfrage**?\n`; break; case 'organisationsziel': questions += `${questionCount}. Was ist das **Ziel der Organisation** im Bezug auf diese Daten?\n`; break; case 'teilnehmer': questions += `${questionCount}. Wer waren die **Teilnehmer*innen** der Umfrage?\n`; break; case 'aufgabenstellung': questions += `${questionCount}. Wie lautet die **Aufgabenstellung** genau (Text oder Datei)?\n`; break; case 'beschreibung der aufgabe': questions += `${questionCount}. Kannst du die **Aufgabe genauer beschreiben**?\n`; break; case 'punkte-skala': questions += `${questionCount}. Welche **Punkte-Skala** soll verwendet werden (z.B. 1-4)?\n`; break; case 'ki-richtlinien': questions += `${questionCount}. Gibt es spezielle **Richtlinien zur KI-Nutzung**?\n`; break; case 'zitationsstil': questions += `${questionCount}. Welcher **Zitationsstil** soll verwendet werden?\n`; break; case 'anzahl aktivitäten': questions += `${questionCount}. Wie viele **Aktivitäten pro Stufe** sollen erstellt werden?\n`; break; case 'ursprüngliche email': questions += `${questionCount}. Wie lautete die **ursprüngliche E-Mail**?\n`; break; case 'gewünschte antwort': questions += `${questionCount}. Was ist die **Kernbotschaft deiner Antwort**?\n`; break; case 'gewünschter ton': questions += `${questionCount}. In welchem **Ton** soll die Antwort verfasst sein (z.B. formell, freundlich)?\n`; break; case 'absenderrolle': questions += `${questionCount}. Aus welcher **Rolle** schreibst du (z.B. Lehrkraft, Schulleitung)?\n`; break; case 'ki-generierter text (als datei oder text)': questions += `${questionCount}. Kannst du den **KI-generierten Text** bereitstellen (als Text oder Dateinamen)?\n`; break; case 'thema oder standard': questions += `${questionCount}. Um welches **Thema oder welchen Lernstandard** geht es?\n`; break; case 'zielgruppe': questions += `${questionCount}. Wer ist die **Zielgruppe** der Präsentation?\n`; break; default: questions += `${questionCount}. Kannst du mir mehr über **'${type}'** erzählen?\n`; } }); questions += "\nBitte lass' den Nutzer bzw. die Nutzerin die Fragen nacheinander beantworten und warte auf die Antworten, bevor du loslegst.\n\n---\n\n"; return questions; }
         function generateFinalPromptText(promptObject) { if (!promptObject || !promptObject.promptText) { console.error("generateFinalPromptText: Ungültiges Prompt-Objekt übergeben:", promptObject); if (promptObject && promptObject.title) { return `Fehler: Prompt-Text fehlt für „${promptObject.title}“. Bitte überprüfe die prompts.json.`; } return "Fehler: Konnte Prompt nicht generieren, da das Prompt-Objekt ungültig ist."; } let basePromptText = ""; if (typeof promptObject.promptText === 'object' && !Array.isArray(promptObject.promptText) && promptObject.promptText !== null) { const keys = Object.keys(promptObject.promptText); if (keys.length > 0) { basePromptText = promptObject.promptText[keys[0]]; } else { console.warn("Prompt-Objekt hat ein leeres 'promptText'-Objekt für ID:", promptObject.id); basePromptText = ""; } } else if (typeof promptObject.promptText === 'string') { basePromptText = promptObject.promptText; } else { console.error("Unbekanntes Format für promptText bei ID:", promptObject.id, "Type:", typeof promptObject.promptText); return `Fehler: Prompt-Text für „${promptObject.title || 'Unbekannter Prompt'}“ hat ein ungültiges Format.`; } const contextQuestions = generateContextQuestions(promptObject.contextNeeded); let finalPromptText = basePromptText; if (contextQuestions) { finalPromptText = contextQuestions + basePromptText; } return finalPromptText; }
 
-        // **** MODIFICATION: Removed old start/launch functions ****
-        // function startChatbotDirectly() { startChatbotDirectlyInternal(); }
-        // function startChatbotDirectlyInternal() { ... }
-        // function launchChatbotWithPromptInternal(promptToLaunch, buttonForFeedback = null, includeSystemPrompt = true) { ... }
-
-        function showSelectedPromptPreview() { showSelectedPromptPreviewInternal(); }
+         function showSelectedPromptPreview() { showSelectedPromptPreviewInternal(); }
          function showSelectedPromptPreviewInternal() {
              const userPromptText = generateFinalPromptText(selectedPrompt); if (userPromptText.startsWith("Fehler:")) { showError(actionErrorSpan, userPromptText, previewEditBtn); resetPreview(); return; }
              promptPreviewOutput.value = botDescription + "\n\n---\n\n" + userPromptText;
@@ -1204,16 +1268,11 @@
              promptPreviewOutput.style.cursor = 'text';
              promptPreviewOutput.style.backgroundColor = '#fff';
              promptPreviewContainer.style.display = 'block';
-             startChatAnchor.style.display = 'none'; // Hide main anchor
-             previewEditBtn.style.display = 'none';
-             launchChatbotAnchor.style.display = 'inline-block'; // Show preview anchor
+             // updateActionButtonState will handle hiding/showing the correct main/preview buttons and notices
              updateActionButtonState();
              if (step3Content.classList.contains('open')) { requestAnimationFrame(() => { if (step3Content && step3Content.scrollHeight) { step3Content.style.maxHeight = step3Content.scrollHeight + "px"; } }); }
              focusOnSection(3);
          }
-
-        // **** MODIFICATION: Removed old launch from preview function ****
-        // function launchChatbotFromPreview() { ... }
 
         async function loadPrompts() {
             try {
@@ -1228,7 +1287,7 @@
                     if (promptListContainer) promptListContainer.innerHTML = `<p role="alert" class="empty-list-message">${errorMsg}</p>`;
                     if (genericPromptsContainer) genericPromptsContainer.innerHTML = `<p role="alert" class="empty-list-message">Keine Schnellstart-Prompts gefunden.</p>`;
                 } else {
-                    genericPrompts = allPrompts.slice(0, 4); // Nimmt die ersten 4 als Schnellstart
+                    genericPrompts = allPrompts.slice(0, 4); 
                     renderGenericPrompts();
                     populateCategoryFilter();
                     filterAndRenderPrompts();
@@ -1238,27 +1297,24 @@
                 const errorHTML = `<p role="alert" class="empty-list-message">Fehler beim Laden der Prompts. (${error.message})</p>`;
                 if (genericPromptsContainer) genericPromptsContainer.innerHTML = errorHTML;
                 if (promptListContainer) promptListContainer.innerHTML = errorHTML;
-                // Akkordeon ggf. öffnen, um den Fehler anzuzeigen
                 if (!step1Content.classList.contains('open')) {
                     step1Section.classList.add('active-section');
                     step1Content.classList.add('open');
-                    step1Content.style.maxHeight = '500px'; // Beispielhöhe
+                    step1Content.style.maxHeight = '500px'; 
                 }
             }
         }
         function populateCategoryFilter() {
             const categories = [...new Set(allPrompts.map(p => p.mainCategory || 'Unbekannt'))]
                 .filter(cat => cat !== 'Unbekannt')
-                .sort((a, b) => a.localeCompare(b, 'de')); // Sortiert alphabetisch nach Deutsch
+                .sort((a, b) => a.localeCompare(b, 'de')); 
 
             if (mainCategorySelect) {
-                // Entferne alte Optionen (außer "Alle")
                 mainCategorySelect.querySelectorAll('option:not([value="Alle"])').forEach(opt => opt.remove());
-                // Füge neue Optionen hinzu
                 categories.forEach(category => {
                     const option = document.createElement('option');
                     option.value = category;
-                    option.textContent = `${categoryIcons[category] || categoryIcons['default']} ${category}`; // Fügt Icon hinzu
+                    option.textContent = `${categoryIcons[category] || categoryIcons['default']} ${category}`; 
                     mainCategorySelect.appendChild(option);
                 });
             } else {
@@ -1279,11 +1335,10 @@
                 card.setAttribute('role', 'button');
                 card.setAttribute('tabindex', '0');
                 card.setAttribute('aria-pressed', 'false');
-                card.setAttribute('aria-label', prompt.title); // Nur Titel als Label
+                card.setAttribute('aria-label', prompt.title); 
 
-                // Pfad zu Icons anpassen
                 const iconNumber = index + 1;
-                const iconFilename = `icon${iconNumber}.png`; // Annahme: icon1.png, icon2.png etc.
+                const iconFilename = `icon${iconNumber}.png`; 
 
                 card.innerHTML = `
                     <div class="prompt-card-icon" aria-hidden="true">
@@ -1297,7 +1352,6 @@
                         selectGenericPrompt(prompt.id, card);
                     }
                 });
-                // Markiere als ausgewählt, wenn nötig
                 if (selectedPrompt && selectedPrompt.id === prompt.id) {
                     card.classList.add('selected');
                     card.setAttribute('aria-pressed', 'true');
@@ -1312,25 +1366,22 @@
                 selectedPrompt = newlySelectedPrompt;
                 selectedPromptIdInput.value = promptId;
                 console.log("Ausgewählter Schnellstart-Prompt:", selectedPrompt.title);
-                // Visuelles Feedback: Auswahl hervorheben
                 document.querySelectorAll('.generic-prompt-card').forEach(card => {
                     card.classList.remove('selected');
                     card.setAttribute('aria-pressed', 'false');
                 });
                 cardElement.classList.add('selected');
                 cardElement.setAttribute('aria-pressed', 'true');
-                // Auswahl in der Bibliothek zurücksetzen
                 document.querySelectorAll('#prompt-library-list .prompt-item').forEach(item => {
                     item.classList.remove('selected-prompt');
                     item.setAttribute('aria-selected', 'false');
                 });
                 hideError(promptErrorSpan); hideFeedback();
-                resetPreview(); // Wichtig: Vorschau zurücksetzen
-                // Nächsten Schritt validieren und ggf. Akkordeon aktualisieren
+                resetPreview(); 
                 if (validateStep1()) {
                     if (validatedData.selectedChatbot) { updateAccordionState(3); }
                     else { updateAccordionState(2); }
-                } else { updateActionButtonState(); } // Nur Button-Text aktualisieren, wenn Schritt 1 nicht validiert
+                } else { updateActionButtonState(); } 
             } else {
                 console.error("Ausgewählter Schnellstart-Prompt mit ID nicht gefunden:", promptId);
                 showError(promptErrorSpan, 'Fehler: Konnte ausgewählten Schnellstart-Prompt nicht finden.');
@@ -1339,7 +1390,6 @@
         function filterAndRenderPrompts() {
             const searchTerm = promptSearchInput.value.toLowerCase().trim();
             selectedMainCategory = mainCategorySelect ? mainCategorySelect.value : 'Alle';
-            // Filtert alle Prompts
             filteredPrompts = allPrompts.filter(prompt => {
                 const mainCategoryMatch = selectedMainCategory === 'Alle' || (prompt.mainCategory === selectedMainCategory);
                 const searchMatch = !searchTerm ||
@@ -1348,22 +1398,17 @@
                                     (Array.isArray(prompt.tags) && prompt.tags.some(tag => tag.toLowerCase().includes(searchTerm)));
                 return mainCategoryMatch && searchMatch;
             });
-            // Entfernt die generischen Prompts aus der gefilterten Liste
             const genericPromptIds = genericPrompts.map(p => p.id);
             filteredPrompts = filteredPrompts.filter(prompt => !genericPromptIds.includes(prompt.id));
-            // Prüft, ob der aktuell ausgewählte Bibliotheks-Prompt noch sichtbar ist
             const isLibraryPromptSelected = selectedPrompt && !genericPrompts.some(gp => gp.id === selectedPrompt.id);
             if (isLibraryPromptSelected && !filteredPrompts.some(p => p.id === selectedPrompt.id)) {
-                // Wenn der ausgewählte Prompt nicht mehr in der Liste ist, Auswahl zurücksetzen
                 const selectedItem = promptListContainer.querySelector('.selected-prompt');
                 if (selectedItem) {
                     selectedItem.classList.remove('selected-prompt');
                     selectedItem.setAttribute('aria-selected', 'false');
                 }
-                // Hier NICHT selectedPrompt = null setzen, da der Nutzer vielleicht nur filtert
             }
-            renderPromptList(); // Rendert die gefilterte Liste
-            // Passt die Höhe des Akkordeon-Inhalts an, falls geöffnet
+            renderPromptList(); 
             if (step1Content.classList.contains('open')) {
                 requestAnimationFrame(() => {
                     if (step1Content && step1Content.scrollHeight) {
@@ -1373,35 +1418,30 @@
             }
         }
         function renderPromptList() {
-            promptListContainer.innerHTML = ''; // Leert die Liste
+            promptListContainer.innerHTML = ''; 
             if (filteredPrompts.length === 0) {
                 promptListContainer.innerHTML = '<p class="empty-list-message">Keine Prompts für diese Filter gefunden.<br>Versuche, die Filter anzupassen oder wähle einen Schnellstart-Prompt.</p>';
             } else {
                  filteredPrompts.forEach(prompt => {
                     const promptElement = document.createElement('div');
                     promptElement.className = 'prompt-item';
-                    promptElement.setAttribute('role', 'option'); // Semantisch korrekt für Listbox-Elemente
-                    promptElement.setAttribute('tabindex', '0'); // Macht es fokussierbar
+                    promptElement.setAttribute('role', 'option'); 
+                    promptElement.setAttribute('tabindex', '0'); 
                     promptElement.dataset.promptId = prompt.id;
-                    promptElement.setAttribute('aria-selected', 'false'); // Standardmäßig nicht ausgewählt
+                    promptElement.setAttribute('aria-selected', 'false'); 
 
-                    // Details (Badges) hinzufügen
                     let detailsHtml = '<div class="details">';
                     if (prompt.mainCategory) detailsHtml += `<span class="badge category-badge">${prompt.mainCategory}</span>`;
-                    // Weitere Badges könnten hier hinzugefügt werden (z.B. Alter)
                     detailsHtml += '</div>';
 
-                    // Titel und Beschreibung (mit Fallback)
                     let displayTitle = prompt.title || 'Unbenannter Prompt';
                     let displayDescription = prompt.description || 'Keine Beschreibung.';
 
-                    // Hinweis auf Varianten oder fehlenden Text (optional)
                     if (typeof prompt.promptText === 'object' && !Array.isArray(prompt.promptText) && prompt.promptText !== null) {
                         if (Object.keys(prompt.promptText).length > 1) { displayTitle += " (Varianten)"; }
                         else if (Object.keys(prompt.promptText).length === 0) { displayTitle += " (Text fehlt!)"; }
                     }
 
-                    // Icon basierend auf Kategorie
                     const icon = categoryIcons[prompt.mainCategory] || categoryIcons['default'];
                     const titleHtml = `<div class="prompt-title-container"><span class="prompt-title-icon" aria-hidden="true">${icon}</span><strong>${displayTitle}</strong></div>`;
 
@@ -1411,7 +1451,6 @@
                         ${detailsHtml}
                     `;
 
-                    // Event Listener für Klick und Tastatur
                     promptElement.addEventListener('click', () => selectPrompt(prompt.id, promptElement));
                     promptElement.addEventListener('keydown', (event) => {
                         if (event.key === 'Enter' || event.key === ' ') {
@@ -1420,7 +1459,6 @@
                         }
                     });
 
-                    // Markieren, wenn dieser Prompt der aktuell ausgewählte ist (und kein generischer)
                     if (selectedPrompt && selectedPrompt.id === prompt.id && !genericPrompts.some(gp => gp.id === prompt.id)) {
                         promptElement.classList.add('selected-prompt');
                         promptElement.setAttribute('aria-selected', 'true');
@@ -1436,60 +1474,50 @@
                 selectedPrompt = newlySelectedPrompt;
                 selectedPromptIdInput.value = promptId;
                 console.log("Ausgewählter Bibliotheks-Prompt:", selectedPrompt.title);
-                // Auswahl bei generischen Prompts entfernen
                 document.querySelectorAll('.generic-prompt-card').forEach(card => {
                     card.classList.remove('selected');
                     card.setAttribute('aria-pressed', 'false');
                 });
-                // Auswahl bei anderen Bibliotheks-Prompts entfernen und bei diesem setzen
                 document.querySelectorAll('#prompt-library-list .prompt-item').forEach(item => {
                     item.classList.remove('selected-prompt');
                     item.setAttribute('aria-selected', 'false');
                 });
-                if(element) { // Element nur übergeben, wenn direkt geklickt/getabbt wurde
+                if(element) { 
                     element.classList.add('selected-prompt');
                     element.setAttribute('aria-selected', 'true');
                 } else {
-                    // Wenn kein Element übergeben wurde (z.B. nach Filterung), Liste neu rendern, um Auswahl zu zeigen
                     renderPromptList();
                 }
                 hideError(promptErrorSpan); hideFeedback();
-                resetPreview(); // Wichtig: Vorschau zurücksetzen
-                // Nächsten Schritt validieren und ggf. Akkordeon aktualisieren
+                resetPreview(); 
                 if (validateStep1()) {
                     if (validatedData.selectedChatbot) { updateAccordionState(3); }
                     else { updateAccordionState(2); }
-                } else { updateActionButtonState(); } // Nur Button-Text aktualisieren, wenn Schritt 1 nicht validiert
+                } else { updateActionButtonState(); } 
             } else {
                 console.error("Ausgewählter Prompt mit ID nicht gefunden:", promptId);
                 showError(promptErrorSpan, 'Fehler: Konnte ausgewählten Prompt nicht finden.');
             }
         }
 
-        // **** MODIFICATION: Add Event Listeners for the anchors ****
         function setupActionAnchorListener(anchorElement, isPreview) {
              if (anchorElement) {
                 anchorElement.addEventListener('click', function(event) {
-                    // Check if the anchor is functionally disabled
                     if (anchorElement.classList.contains('disabled')) {
-                        event.preventDefault(); // Prevent any action if disabled
+                        event.preventDefault(); 
                         return;
                     }
 
-                    // Validate steps before proceeding
                     if (!validateStep1() || !validateStep2() || !validateStep3(isPreview)) {
-                        event.preventDefault(); // Prevent action if validation fails
-                        // Errors are shown within validation functions
+                        event.preventDefault(); 
                         return;
                     }
 
-                    // Determine the prompt text (either from selection or preview textarea)
                     let userPromptText;
                     let includeSystemPrompt = true;
                     if (isPreview) {
                         userPromptText = promptPreviewOutput.value;
-                        // Assume system prompt is already included in the textarea for preview
-                        includeSystemPrompt = false;
+                        includeSystemPrompt = false; 
                         if (!userPromptText.trim()) {
                             event.preventDefault();
                             showError(actionErrorSpan, 'Fehler: Der Prompt darf nicht leer sein.', promptPreviewOutput);
@@ -1502,12 +1530,9 @@
                             showError(actionErrorSpan, userPromptText, anchorElement);
                             return;
                         }
-                         // Include system prompt for direct start
                          includeSystemPrompt = true;
                     }
 
-
-                    // Construct the final chatbot URL
                     const finalPromptWithSystemInstructions = includeSystemPrompt ? (botDescription + "\n\n---\n\n" + userPromptText) : userPromptText;
 
                     if (!finalPromptWithSystemInstructions.trim()) {
@@ -1516,48 +1541,83 @@
                          return;
                     }
 
-                    const encodedPrompt = encodeURIComponent(finalPromptWithSystemInstructions);
-                    let url = '';
                     const chatbot = validatedData.selectedChatbot;
+                    let targetUrl = '';
+
                     switch (chatbot) {
-                        case 'chatgpt': url = `https://chatgpt.com/?q=${encodedPrompt}`; break;
-                        case 'claude': url = `https://claude.ai/new?q=${encodedPrompt}`; break;
-                        case 'mistral': url = `https://chat.mistral.ai/chat?q=${encodedPrompt}`; break;
-                        case 'copilot': url = `https://copilot.microsoft.com/?q=${encodedPrompt}`; break;
+                        case 'chatgpt':
+                            targetUrl = `https://chatgpt.com/?q=${encodeURIComponent(finalPromptWithSystemInstructions)}`;
+                            break;
+                        case 'claude':
+                            targetUrl = `https://claude.ai/new?q=${encodeURIComponent(finalPromptWithSystemInstructions)}`;
+                            break;
+                        case 'mistral':
+                            targetUrl = `https://chat.mistral.ai/chat?q=${encodeURIComponent(finalPromptWithSystemInstructions)}`;
+                            break;
+                        case 'copilot':
+                            targetUrl = `https://copilot.microsoft.com/?q=${encodeURIComponent(finalPromptWithSystemInstructions)}`;
+                            break;
+                        case 'gemini':
+                            targetUrl = 'https://gemini.google.com/'; // Base URL
+                            break;
+                        case 'duckai':
+                            targetUrl = 'https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat&duckai=1'; // Base URL
+                            break;
                         default:
                             console.error("Unbekannter Chatbot:", chatbot);
                             showError(actionErrorSpan, 'Fehler: Chatbot konnte nicht gestartet werden.');
-                            event.preventDefault(); // Prevent action
+                            event.preventDefault();
                             return;
                     }
 
-                    // Set the href attribute dynamically
-                    anchorElement.href = url;
-                    anchorElement.target = '_blank'; // Ensure target is set
+                    anchorElement.href = targetUrl; 
+                    anchorElement.target = '_blank';
 
-                    // Show brief feedback
-                    showFeedback("Chatbot wird geöffnet & Weiterleitung zum Buch...", 1500);
-                    anchorElement.classList.add('success-feedback');
-                    setTimeout(() => { anchorElement.classList.remove('success-feedback'); }, 550);
+                    if (chatbot === 'gemini' || chatbot === 'duckai') {
+                        event.preventDefault(); 
 
+                        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                            navigator.clipboard.writeText(finalPromptWithSystemInstructions).then(() => {
+                                showFeedback("Prompt kopiert! Bitte im Chatbot einfügen. Weiterleitung zum Buch...", 3500);
+                                anchorElement.classList.add('success-feedback');
+                                setTimeout(() => { anchorElement.classList.remove('success-feedback'); }, 550);
 
-                    // Redirect the current page to the book URL *after* allowing the default action
-                    // Use setTimeout to ensure the new tab has started opening
-                    setTimeout(() => {
-                        window.location.href = bookUrl;
-                    }, 150); // Adjust delay if needed
+                                window.open(targetUrl, '_blank'); 
 
-                    // Do NOT prevent default action here, let the browser handle opening the link
+                                setTimeout(() => {
+                                    window.location.href = bookUrl;
+                                }, 200); 
+
+                            }).catch(err => {
+                                console.error('Fehler beim Kopieren:', err);
+                                showError(actionErrorSpan, 'Fehler: Prompt nicht kopiert. Öffne Chatbot & kopiere manuell.');
+                                window.open(targetUrl, '_blank');
+                                setTimeout(() => {
+                                    window.location.href = bookUrl; 
+                                }, 200);
+                            });
+                        } else {
+                             showError(actionErrorSpan, 'Zwischenablage nicht verfügbar. Öffne Chatbot & kopiere manuell.');
+                             window.open(targetUrl, '_blank');
+                             setTimeout(() => {
+                                 window.location.href = bookUrl;
+                             }, 200);
+                        }
+                    } else { // For other chatbots, let the default action of the anchor open it
+                        showFeedback("Chatbot wird geöffnet & Weiterleitung zum Buch...", 1500);
+                        anchorElement.classList.add('success-feedback');
+                        setTimeout(() => { anchorElement.classList.remove('success-feedback'); }, 550);
+                        setTimeout(() => {
+                            window.location.href = bookUrl;
+                        }, 150);
+                        // DO NOT preventDefault() here for these other chatbots
+                    }
                 });
              }
         }
 
-
-        // Event Listener beim Laden der Seite
         document.addEventListener('DOMContentLoaded', () => {
-            // Prompts laden und UI initialisieren
             loadPrompts().then(() => {
-                // Stellt sicher, dass die Höhe des Akkordeons nach dem Laden passt
                 if (step1Content.classList.contains('open')) {
                     requestAnimationFrame(() => {
                         if (step1Content && step1Content.scrollHeight) {
@@ -1565,30 +1625,25 @@
                         }
                     });
                 }
-                updateActionButtonState(); // Initialisiert den Button/Anchor-Status
+                updateActionButtonState(); 
             });
 
-            // Vorschau-Textarea initial auf read-only setzen
             promptPreviewOutput.readOnly = true;
             promptPreviewOutput.style.cursor = 'not-allowed';
             promptPreviewOutput.style.backgroundColor = '#e9ecef';
 
-            // Event Listener für Filter
             if (mainCategorySelect) { mainCategorySelect.addEventListener('change', filterAndRenderPrompts); }
             if(promptSearchInput) { promptSearchInput.addEventListener('input', filterAndRenderPrompts); }
 
-            // **** MODIFICATION: Setup listeners for anchors ****
-            setupActionAnchorListener(startChatAnchor, false); // Listener for the main start anchor
-            setupActionAnchorListener(launchChatbotAnchor, true); // Listener for the preview launch anchor
+            setupActionAnchorListener(startChatAnchor, false); 
+            setupActionAnchorListener(launchChatbotAnchor, true); 
 
-
-            // Stellt sicher, dass die Höhe des initial geöffneten Akkordeons passt
             requestAnimationFrame(() => {
                 if(step1Content.classList.contains('open') && step1Content.scrollHeight) {
                     step1Content.style.maxHeight = step1Content.scrollHeight + "px";
                 }
             });
-            updateActionButtonState(); // Stellt sicher, dass der Button/Anchor-Status korrekt ist
+            updateActionButtonState(); 
         });
     </script>
 </body>
