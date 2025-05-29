@@ -494,16 +494,10 @@
             box-shadow: var(--shadow-medium);
         }
 
-        /* ============================================ */
-        /* == Styling für Datenschutzhinweise        == */
-        /* ============================================ */
-
         /* Abschnitt Container */
         #datenschutz-hinweise {
             margin-top: 40px;  /* Abstand nach oben zum vorherigen Element */
             padding-top: 20px; /* Innenabstand oben */
-            border-top: 1px solid #eee; /* Eine Trennlinie oben */
-            /* Stellt sicher, dass der Container die Breite/Zentrierung wie andere .container hat */
         }
 
         /* Überschriften */
@@ -572,6 +566,81 @@
             color: #003a8c; /* Even darker blue for strong text */
         }
 
+        /* --- NEU: Chatbot Übersicht Tabelle Stile --- */
+        .chatbot-overview-container {
+            /* padding: 0 25px;  Match .accordion-content padding, wird durch section-header geregelt */
+            margin-bottom: 30px; /* Mehr Abstand nach unten vor den Datenschutzhinweisen */
+            margin-top: 30px; /* Abstand nach oben */
+        }
+        .chatbot-overview-container > h3 { /* Muss spezifischer sein als .accordion-content h3 */
+            font-size: var(--font-size-h2); /* Größe wie andere Sektions-Hauptüberschriften */
+            color: var(--primary-color-dark);
+            margin-top: 0; /* Kein extra oberer Rand, da es die erste Überschrift im Container ist */
+            margin-bottom: 1.5rem; /* Standard Abstand unter Überschrift */
+            padding-bottom: 8px; /* Etwas mehr padding */
+            border-bottom: 2px solid var(--primary-color);
+        }
+        .table-responsive-wrapper {
+            overflow-x: auto; /* Macht Tabelle auf kleinen Screens horizontal scrollbar */
+            width: 100%;
+            margin-bottom: 1.5rem; /* Abstand nach der Tabelle */
+        }
+        #chatbot-summary-table {
+            width: 100%;
+            min-width: 700px; /* Mindestbreite bevor Scrollen einsetzt, um Umbrüche zu minimieren */
+            border-collapse: collapse;
+            /* margin: 1.5rem 0; /* Entfernt, da Wrapper Abstand hat */
+            font-size: var(--font-size-small);
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-medium);
+            /* overflow: hidden; /* Wichtig für border-radius, aber kann bei overflow-x stören, besser am Wrapper */
+        }
+        #chatbot-summary-table th,
+        #chatbot-summary-table td {
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 12px;
+            text-align: left;
+            vertical-align: top;
+            white-space: nowrap; /* Verhindert Umbruch in Zellen für bessere Lesbarkeit bei schmalen Spalten, außer bei Bedarf */
+        }
+        #chatbot-summary-table th {
+            background-color: var(--background-prompt-item);
+            font-weight: bold;
+            color: var(--primary-color-dark);
+            border-bottom-width: 2px;
+        }
+        #chatbot-summary-table tbody tr:nth-child(odd) {
+            background-color: #fdfdfe; /* Etwas heller als Standard prompt-item für Abwechslung */
+        }
+        #chatbot-summary-table tbody tr:hover {
+            background-color: var(--background-selected);
+        }
+        /* Spezifische Zellen können Umbruch erlauben, falls nötig */
+        #chatbot-summary-table td.allow-wrap,
+        #chatbot-summary-table th.allow-wrap {
+            white-space: normal;
+        }
+        /* Letzte Zeile ohne untere Border */
+        #chatbot-summary-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .chatbot-legend {
+            font-size: var(--font-size-small);
+            /* margin-top: 1.5rem; /* Wird vom Wrapper Abstand oben geregelt */
+            line-height: 1.5;
+        }
+        .chatbot-legend h4 {
+            font-size: var(--font-size-h5); /* Etwas kleiner für Legendenüberschrift */
+            color: var(--text-muted);
+            margin-top: 0; /* Kein extra oberer Rand */
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+        }
+        .chatbot-legend p {
+            margin-bottom: 0.4rem; /* Kleinerer Abstand zwischen Legendenpunkten */
+        }
+
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
@@ -621,6 +690,19 @@
                 box-sizing: border-box;
                 text-align: center;
             }
+            /* Responsive Chatbot-Übersichtstabelle */
+            .chatbot-overview-container {
+                padding: 0 15px; /* Weniger Padding auf Mobile */
+            }
+            #chatbot-summary-table {
+                font-size: 0.75rem; /* Kleinere Schrift für Tabelle auf Mobile */
+                min-width: 0; /* Erlaubt Schrumpfen, da scrollbar */
+            }
+            #chatbot-summary-table th,
+            #chatbot-summary-table td {
+                padding: 8px 10px; /* Weniger Padding in Zellen */
+                 /* white-space: normal; /* Erlaubt Umbruch in Zellen auf Mobile, falls nowrap zu breit wird */
+            }
         }
         @media (max-width: 480px) {
             body { padding: 10px; } .header { padding: 15px; }
@@ -655,6 +737,11 @@
             }
             .book-details p {
                 font-size: var(--font-size-small); /* Kleinerer Text */
+            }
+             /* Chatbot-Übersichtstabelle auf sehr kleinen Screens */
+            #chatbot-summary-table th,
+            #chatbot-summary-table td {
+                padding: 6px 8px;
             }
         }
     </style>
@@ -799,7 +886,7 @@
         </section>
 
         <section class="section">
-            <div class="section-header">
+            <div class="section-header" style="border-bottom: none;">
                 <h2>Über dieses Projekt</h2>
                 <p>
                     Dieses Tool entstand im Rahmen unseres Buches
@@ -829,6 +916,7 @@
                         <a href="https://kai.im/kidsgpt-buch" target="_blank" rel="noopener noreferrer external nofollow"><img src="81TaWXeqD-L._SL1500_.jpg" alt="Buchcover „Kluge Köpfchen mit KI“"></a><sup>*</sup>
                     </div>
                 </div>
+
                 <div id="datenschutz-hinweise">
                     <h2>Sicher und datensparsam mit Chatbots</h2>
                     <p>Liebe Eltern,</p>
@@ -926,6 +1014,93 @@
                         Möchtest du mehr über das clevere Anweisen von KIs lernen? Schau in unseren
                         <strong><a href="leitfaden.html" target="_blank">ausführlichen KI-Promptingkurs für Eltern</a></strong>!
                     </p>
+                </div>
+                <div class="chatbot-overview-container">
+                    <h3>Welche Chatbots sind kostenlos und sicher?</h3>
+                    <div class="table-responsive-wrapper">
+                        <table id="chatbot-summary-table">
+                          <thead>
+                            <tr>
+                              <th>Tool</th>
+                              <th>Anbieter</th>
+                              <th>Alter</th>
+                              <th>Kostenlos?</th>
+                              <th>Anmeldung</th>
+                              <th>Training</th>
+                              <th>Opt-Out</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><strong>Le Chat</strong></td>
+                              <td>Mistral 🇫🇷</td>
+                              <td>13<sup>*</sup></td>
+                              <td>🟡</td>
+                              <td>❌</td>
+                              <td>⚠️</td>
+                              <td>✅</td>
+                            </tr>
+                            <tr>
+                              <td><strong>ChatGPT</strong></td>
+                              <td>OpenAI 🇺🇸</td>
+                              <td>13<sup>*</sup></td>
+                              <td>🟡</td>
+                              <td>🟡</td>
+                              <td>⚠️</td>
+                              <td>✅</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Copilot</strong></td>
+                              <td>Microsoft 🇺🇸</td>
+                              <td>🇩🇪 16 / 🇦🇹 14 / 🇨🇭 13</td>
+                              <td>🟡</td>
+                              <td>🟡</td>
+                              <td>⚠️*</td>
+                              <td>✅</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Claude</strong></td>
+                              <td>Anthropic 🇺🇸</td>
+                              <td>18</td>
+                              <td>🟡</td>
+                              <td>❌</td>
+                              <td>🔒</td>
+                              <td>✅ (Opt-In)</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Gemini</strong></td>
+                              <td>Google 🇺🇸</td>
+                              <td>🇩🇪 16 / 🇦🇹 14 / 🇨🇭 13</td>
+                              <td>🟡</td>
+                              <td>❌</td>
+                              <td>⚠️</td>
+                              <td>✅</td>
+                            </tr>
+                            <tr>
+                              <td><strong>Duck.ai</strong></td>
+                              <td>DuckDuckGo 🇺🇸</td>
+                              <td>13<sup>*</sup></td>
+                              <td>✅</td>
+                              <td>✅</td>
+                              <td>🔒</td>
+                              <td>–</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </div>
+                    <div class="chatbot-legend">
+                        <h4>Legende:</h4>
+                        <ul>
+                          <li>✅ = Ja / Trifft zu</li>
+                          <li>❌ = Nein / Trifft nicht zu</li>
+                          <li>🟡 = Eingeschränkt</li>
+                          <li>13<sup>*</sup> = Ab 13 mit Erlaubnis der Eltern/Erziehungsberechtigten</li>
+                          <li>⚠️ = Achtung: Daten werden fürs KI-Training genutzt</li>
+                          <li>⚠️<sup>*</sup> = Anonymisierte Trainingsdaten</li>
+                          <li>🔒 = Sicher, da kein Training laut Anbieter</li>
+                          <li>Opt-Out = Möglichkeit, der Datennutzung zu widersprechen</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
