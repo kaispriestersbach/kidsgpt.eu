@@ -157,11 +157,11 @@
             margin-top: 1.5rem; margin-bottom: 1rem; padding-bottom: 5px;
             border-bottom: 2px solid var(--primary-color);
         }
-        .accordion-content h4, .chatbot-name { /* Vorher h5 */
+        .accordion-content h4 {
             font-size: var(--font-size-h5); color: var(--text-muted);
             margin-top: 1.2rem; margin-bottom: 0.8rem; font-weight: bold;
         }
-         .accordion-content h5 { /* Vorher h6 */
+         .accordion-content h5 {
             font-size: var(--font-size-h5); color: var(--text-muted);
             margin-top: 1rem; margin-bottom: 0.6rem; font-weight: bold;
         }
@@ -333,23 +333,43 @@
         /* --- CHATBOT-AUSWAHL --- */
         .chatbot-options { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 10px; justify-content: flex-start; }
         .chatbot-option {
-             display: flex; flex-direction: column; align-items: center; border: 2px solid var(--border-color); border-radius: var(--border-radius-medium);
-             padding: 15px; padding-bottom: 35px; cursor: pointer; transition: all var(--transition-speed) var(--transition-timing); width: 130px;
-             background-color: var(--background-section); position: relative; overflow: hidden;
+             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* NEU: Vertikale Zentrierung für Icon und Name */
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius-medium);
+            padding: 15px; /* Behält oberen/linken/rechten Padding bei */
+            padding-bottom: 35px; /* Behält Platz für Badges unten bei */
+            cursor: pointer;
+            transition: all var(--transition-speed) var(--transition-timing);
+            width: 130px;
+            background-color: var(--background-section);
+            position: relative;
+            overflow: hidden;
+            box-sizing: border-box; /* NEU: Für konsistentes Box-Modell */
         }
         .chatbot-option:hover { background-color: #f0fdfa; border-color: var(--primary-color); box-shadow: var(--shadow-medium); }
         .chatbot-option.selected { border-color: var(--border-color-selected); background-color: var(--background-selected); box-shadow: var(--shadow-selected); }
         .chatbot-option.selected::after { content: '✔'; position: absolute; top: 5px; right: 8px; font-size: 1.2rem; color: var(--primary-color-dark); font-weight: bold; }
-        .chatbot-icon { width: 48px; height: 48px; margin-bottom: 10px; opacity: 0.9; }
+        .chatbot-icon { width: 60px; height: 60px; margin-bottom: 12px; opacity: 0.9; }
         .chatbot-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none; }
         .recommendation-badge, .europe-badge {
             position: absolute; bottom: 5px; padding: 2px 6px; border-radius: var(--border-radius-small);
             font-size: 0.7rem; font-weight: bold; line-height: 1.2; text-align: center; white-space: nowrap;
         }
         .recommendation-badge { left: 5px; background-color: var(--success-color); color: var(--text-light); }
-        .europe-badge { right: 5px; background-color: #003399; color: #FFCC00; }
+        .europe-badge { right: 5px; }
 
-
+        .chatbot-name {
+            font-size: var(--font-size-p); /* Ursprünglich var(--font-size-h5), 1rem ist var(--font-size-p) */
+            color: var(--text-dark);       /* Besserer Kontrast als var(--text-muted) */
+            font-weight: bold;
+            margin-top: 0;                 /* WICHTIG: Entfernt den großen oberen Abstand */
+            margin-bottom: 4px;            /* Kleiner Abstand nach unten (Badges sind absolut positioniert) */
+            line-height: 1.3;
+            text-align: center;            /* Stellt sicher, dass der Text zentriert ist */
+        }
         /* --- PROMPT VORSCHAU & BEARBEITUNG --- */
         #prompt-preview-container { margin-top: 20px; padding: 20px; border: 1px solid var(--border-color); border-radius: var(--border-radius-medium); background-color: #f8f9fa; display: none; }
         #prompt-preview-container h3 { margin-top: 0; font-size: 1.1rem; color: var(--primary-color-darker); margin-bottom: 0.8rem;} /* War h4, angepasst an neue Hierarchie & Farbe */
@@ -569,7 +589,7 @@
             .filter-group-combined { flex-direction: column; align-items: stretch; gap: 10px; }
             .filter-group-combined .form-group { min-width: unset; }
             .chatbot-options { gap: 10px; justify-content: space-around; }
-            .chatbot-option { width: 110px; padding: 12px; padding-bottom: 30px; } /* Behält die Breite für Tablets bei */
+            .chatbot-option { width: 110px; padding: 12px; padding-bottom: 30px; }
             .chatbot-option.selected::after { top: 3px; right: 5px; font-size: 1rem; }
             .recommendation-badge, .europe-badge { font-size: 0.65rem; padding: 2px 4px; }
             /* Button/Link Anpassungen */
@@ -617,14 +637,12 @@
             .chatbot-options { justify-content: center; }
             /* *** ÄNDERUNG HIER: Chatbot-Optionen auf voller Breite *** */
             .chatbot-option {
-                 /* width: calc(50% - 10px); */ /* ALT */
-                 width: 100%; /* NEU */
-                 box-sizing: border-box; /* NEU - Wichtig bei 100% Breite */
-                 padding: 15px; /* NEU - Etwas mehr Padding */
-                 padding-bottom: 35px; /* Beibehalten oder anpassen */
-                 margin-bottom: 10px; /* NEU - Etwas Abstand nach unten */
+                 width: calc(50% - 5px);
+                 box-sizing: border-box;
+                 padding: 12px;
+                 padding-bottom: 30px;
             }
-            .chatbot-icon { width: 40px; height: 40px; }
+            .chatbot-icon { width: 56px; height: 56px; margin-bottom: 12px; }
             .recommendation-badge, .europe-badge { font-size: 0.6rem; }
             .footer { font-size: 0.8rem; }
 
@@ -711,7 +729,7 @@
                                 <input type="radio" id="mistral" name="chatbot" value="mistral" class="visually-hidden">
                                 <span class="chatbot-name">Le Chat</span>
                                 <span class="recommendation-badge">Empfehlung</span>
-                                <span class="europe-badge">KI aus 🇪🇺</span>
+                                <span class="europe-badge">🇪🇺</span>
                             </label>
                             <label class="chatbot-option" tabindex="0" onclick="selectChatbot('chatgpt', this)" onkeydown="handleChatbotKeydown(event, 'chatgpt', this)" title="Starte einen Chat mit ChatGPT (OpenAI)">
                                 <img src="ChatGPT_logo.svg" alt="ChatGPT Logo" class="chatbot-icon">
