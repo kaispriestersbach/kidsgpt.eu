@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1080, height=1350">
+    <title>Chatbots und KI-Tools für Eltern - Kompakte Übersicht</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 1080px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+
+        .container {
+            width: 1080px;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .criteria-header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 20px 0 120px;
+            margin-bottom: 15px;
+            gap: 25px;
+        }
+
+        .criteria-header-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            min-width: 90px;
+        }
+
+        .criteria-icon {
+            font-size: 24px;
+        }
+
+        .criteria-label {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .tools-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tool-row {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 12px;
+            padding: 14px 20px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            border: 2px solid #f0f0f0;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .tool-row:hover {
+            transform: translateX(5px);
+        }
+
+        .tool-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #a0a0a0;
+            border: 2px dashed #d0d0d0;
+            flex-shrink: 0;
+        }
+
+        .logo-placeholder img {
+            width: 36px;
+            height: 36px;
+        }
+
+        .tool-name-group {
+            flex: 0 0 140px;
+        }
+
+        .tool-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            line-height: 1;
+        }
+
+        .tool-provider {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .country-flag {
+            font-size: 16px;
+        }
+
+        .mini-info {
+            flex: 0 0 160px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            font-size: 13px;
+            color: #666;
+            padding: 0 10px;
+        }
+
+        .criteria-values {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+        }
+
+        .criterion-value {
+            min-width: 90px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .age-glyph {
+            background: #e0e7ff;
+            color: #5a67d8;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .age-adult {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .age-details {
+            font-size: 10px;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .highlight-green {
+            background: #d4edda;
+            border-color: #c3e6cb !important;
+        }
+
+        .highlight-red {
+            background: #fff5f5;
+            border-color: #feb2b2 !important;
+        }
+
+        .highlight-yellow {
+            background: #fff8dc;
+            border-color: #ffd700 !important;
+        }
+
+        .badge-safe {
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .badge-warning {
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            background: #ef4444;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+
+        .badge-info {
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            background: #3b82f6;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .legend-compact {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 15px 0;
+        }
+
+        .legend-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            background: white;
+            padding: 6px 10px;
+            border-radius: 8px;
+        }
+
+        .legend-symbol {
+            font-size: 20px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .bottom-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            padding: 18px;
+            text-align: center;
+            color: white;
+            margin-top: 15px;
+        }
+
+        .recommendations {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .rec-badge {
+            background: rgba(255, 255, 255, 0.9);
+            color: #2d3748;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-info {
+            background: #f0f4ff;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .book-cover-placeholder {
+            width: 70px;
+            height: 90px;
+            background: #e0e7ff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: #667eea;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .book-cover-placeholder img {
+            width: 70px;
+        }
+
+        .book-text {
+            flex: 1;
+            font-size: 18px;
+            line-height: 1.5;
+            color: #2d3748;
+        }
+
+        .book-text strong {
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .warning-note {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 4px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Chatbots & KI-Tools für Eltern</h1>
+        </div>
+
+        <!-- Book Info -->
+        <div class="book-info">
+            <div class="book-cover-placeholder"><img src="81TaWXeqD-L._SL1500_.jpg"></div>
+            <div class="book-text">
+                Diese Übersicht zeigt Nutzungsbedingungen und Datenschutz-Optionen der wichtigsten KI-Tools für Eltern.<br>
+                Aus <strong>„Kluge Köpfchen mit KI"</strong> von Kai Spriestersbach und Leonie Lutz<br>
+                <span class="warning-note">⚠️ Bitte begleite dein Kind bei der Nutzung!</span>
+                Mehr: <a href="https://www.kidsgpt.eu" style="color: #667eea;">KidsGPT.eu</a>
+            </div>
+        </div>
+
+        <!-- Criteria Header -->
+        <div class="criteria-header">
+            <div class="criteria-header-item">
+                <span class="criteria-icon">🎂</span>
+                <span class="criteria-label">Alter</span>
+            </div>
+            <div class="criteria-header-item">
+                <span class="criteria-icon">🆓</span>
+                <span class="criteria-label">Kostenlos</span>
+            </div>
+            <div class="criteria-header-item">
+                <span class="criteria-icon">👤</span>
+                <span class="criteria-label">Ohne Konto</span>
+            </div>
+            <div class="criteria-header-item">
+                <span class="criteria-icon">📊</span>
+                <span class="criteria-label">KI-Training</span>
+            </div>
+            <div class="criteria-header-item">
+                <span class="criteria-icon">📴</span>
+                <span class="criteria-label">Opt-Out</span>
+            </div>
+        </div>
+
+        <!-- Tools List -->
+        <div class="tools-list">
+            <!-- ChatGPT -->
+            <div class="tool-row">
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="ChatGPT_logo.svg"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">ChatGPT</div>
+                        <div class="tool-provider">OpenAI <span class="country-flag">🇺🇸</span></div>
+                    </div>
+                    <div class="mini-info"></div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value"><span class="age-glyph">13*</span></div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🟡</div>
+                    <div class="criterion-value">⚠️</div>
+                    <div class="criterion-value">🟢</div>
+                </div>
+            </div>
+
+            <!-- Claude -->
+            <div class="tool-row">
+                <div class="badge-info">Ab 18 Jahre</div>
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="claude-ai-icon.svg"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">Claude</div>
+                        <div class="tool-provider">Anthropic <span class="country-flag">🇺🇸</span></div>
+                    </div>
+                    <div class="mini-info"></div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value"><span class="age-glyph">18</span></div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🔴</div>
+                    <div class="criterion-value">⚠️</div>
+                    <div class="criterion-value">🟢</div>
+                </div>
+            </div>
+
+            <!-- Gemini -->
+            <div class="tool-row">
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="google-gemini-icon.svg"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">Gemini</div>
+                        <div class="tool-provider">Google <span class="country-flag">🇺🇸</span></div>
+                    </div>
+                    <div class="mini-info"></div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value">
+                        <span class="age-glyph">13-16</span>
+                        <span class="age-details">DE:16 AT:14 CH:13</span>
+                    </div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🔴</div>
+                    <div class="criterion-value">⚠️</div>
+                    <div class="criterion-value">🟠</div>
+                </div>
+            </div>
+
+            <!-- Le Chat -->
+            <div class="tool-row highlight-green">
+                <div class="badge-safe">Empfohlen</div>
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="mistral-ai.svg"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">Le Chat</div>
+                        <div class="tool-provider">Mistral AI <span class="country-flag">🇫🇷</span></div>
+                    </div>
+                    <div class="mini-info">🇪🇺 KI aus Europa<br>👍 Opt-Out ohne Login</div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value"><span class="age-glyph">13*</span></div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🟡</div>
+                    <div class="criterion-value">⚠️</div>
+                    <div class="criterion-value">🟢</div>
+                </div>
+            </div>
+
+            <!-- Copilot -->
+            <div class="tool-row">
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="copilot-icon.svg"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">Copilot</div>
+                        <div class="tool-provider">Microsoft <span class="country-flag">🇺🇸</span></div>
+                    </div>
+                    <div class="mini-info"></div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value">
+                        <span class="age-glyph">13-16</span>
+                        <span class="age-details">DE:16 AT:14 CH:13</span>
+                    </div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🟡</div>
+                    <div class="criterion-value">⚠️</div>
+                    <div class="criterion-value">🟠</div>
+                </div>
+            </div>
+
+            <!-- Duck.ai -->
+            <div class="tool-row highlight-green">
+                <div class="badge-safe">Empfohlen</div>
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="duck-ai-icon.svg"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">Duck.ai</div>
+                        <div class="tool-provider">DuckDuckGo <span class="country-flag">🇺🇸</span></div>
+                    </div>
+                    <div class="mini-info">🛡️ Privacy First</div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value"><span class="age-glyph">13*</span></div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🛡️</div>
+                    <div class="criterion-value">🟢</div>
+                </div>
+            </div>
+
+            <!-- Perplexity -->
+            <div class="tool-row">
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="Perplexity_AI_logo.svg"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">Perplexity</div>
+                        <div class="tool-provider">Perplexity AI <span class="country-flag">🇺🇸</span></div>
+                    </div>
+                    <div class="mini-info"></div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value"><span class="age-glyph">13*</span></div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🟡</div>
+                    <div class="criterion-value">⚠️</div>
+                    <div class="criterion-value">🟠</div>
+                </div>
+            </div>
+
+            <!-- Ecosia Chat -->
+            <div class="tool-row">
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="Ecosia-like_logo.svg"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">Ecosia Chat</div>
+                        <div class="tool-provider">Ecosia GmbH <span class="country-flag">🇩🇪</span></div>
+                    </div>
+                    <div class="mini-info">🌳 Pflanzt Bäume</div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value"><span class="age-glyph">❓</span></div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🟡</div>
+                    <div class="criterion-value">🛡️</div>
+                    <div class="criterion-value">🟢</div>
+                </div>
+            </div>
+
+            <!-- Meta AI -->
+            <div class="tool-row highlight-red">
+                <div class="badge-warning">Kein Opt-Out!</div>
+                <div class="tool-info">
+                    <div class="logo-placeholder"><img src="meta-ai-min.png"></div>
+                    <div class="tool-name-group">
+                        <div class="tool-name">Meta AI</div>
+                        <div class="tool-provider">Meta <span class="country-flag">🇺🇸</span></div>
+                    </div>
+                    <div class="mini-info"></div>
+                </div>
+                <div class="criteria-values">
+                    <div class="criterion-value"><span class="age-glyph">13*</span></div>
+                    <div class="criterion-value">🟢</div>
+                    <div class="criterion-value">🟡</div>
+                    <div class="criterion-value">⚠️</div>
+                    <div class="criterion-value">🔴</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compact Legend -->
+        <div class="legend-compact">
+            <div class="legend-title">Symbole erklärt</div>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <span class="legend-symbol">🟢</span>
+                    <span>Ja / Verfügbar</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol">🟡</span>
+                    <span>Eingeschränkt nutzbar</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol">🔴</span>
+                    <span>Nein / Nicht verfügbar</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol">🟠</span>
+                    <span>Nach Login möglich</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol">⚠️</span>
+                    <span>Daten werden für Training genutzt</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-symbol">🛡️</span>
+                    <span>Daten sind geschützt</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
